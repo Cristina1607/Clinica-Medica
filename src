@@ -1,0 +1,57 @@
+CREATE DATABASE IF NOT EXISTS ClinicaMedica;
+USE ClinicaMedica;
+
+CREATE TABLE IF NOT EXISTS Paciente (
+ID_Paciente INT AUTO_INCREMENT PRIMARY KEY,
+Nome VARCHAR(100) NOT NULL,
+Telefone VARCHAR(15),
+Data_Nascimento DATETIME
+);
+
+INSERT INTO Paciente (Nome, Telefone, Data_Nascimento)
+VALUES
+('Cris', '123456789', '2007/09/22'),
+('Biel', '134567890', '2007/01/16');
+
+CREATE TABLE IF NOT EXISTS Medico (
+ID_medico INT AUTO_INCREMENT PRIMARY KEY,
+Nome VARCHAR(100) NOT NULL,
+Especialidade VARCHAR(50)
+);
+
+INSERT INTO Medico (Nome, Especialidade)
+VALUES
+('Camilla', 'Odontologia'),
+('Renato', 'PediatrIA');
+
+CREATE TABLE Consulta (
+    ID_Consulta INT AUTO_INCREMENT PRIMARY KEY,
+    ID_Paciente INT,
+    FOREIGN KEY (ID_Paciente) REFERENCES Paciente(ID_Paciente)
+    ON DELETE SET NULL ON UPDATE CASCADE,
+    ID_Medico INT,
+    FOREIGN KEY (ID_Medico) REFERENCES Medico(ID_Medico)
+    ON DELETE SET NULL ON UPDATE CASCADE,
+    Data_Consulta DATETIME,
+    Valor DECIMAL(10, 2)
+);
+
+INSERT INTO Consulta (Data_Consulta, Valor)
+VALUES
+('2024-11-11', '90'),
+('2024-11-12', '90');
+
+CREATE TABLE IF NOT EXISTS Receita (
+ID_Receita INT AUTO_INCREMENT PRIMARY KEY,
+ID_Consulta INT,
+FOREIGN KEY (ID_Consulta) REFERENCES Consulta(ID_Consulta)
+ON DELETE SET NULL ON UPDATE CASCADE,
+Descricao_Medicamento TEXT
+);
+
+INSERT INTO Receita (Descricao_Medicamento)
+VALUES
+('Uso noturno'),
+('Aplicar em 12 em 12 horas');
+
+SELECT * FROM Consulta;
